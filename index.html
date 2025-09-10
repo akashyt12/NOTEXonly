@@ -1,177 +1,74 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NOTEX Live Prediction</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>React App with Adsterra Social Bar (Demo)</title>
+  <!--
+    NOTE: This file uses CDN links for React and Babel in a normal environment.
+    It also includes the Adsterra script tag you provided.
+    In this offline demo the external ad script will not load (no internet).
+    To see the real ad, run this file on your local machine with internet access.
+  -->
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #74ebd5, #acb6e5);
-      color: #333;
-      overflow-x: hidden;
-    }
-
-    section {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 2em;
-      color: #ffffff;
-      margin-bottom: 20px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      padding: 30px;
-      max-width: 400px;
-      width: 90%;
-      text-align: left;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      margin-top: 20px;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-    }
-
-    .card p {
-      margin: 10px 0;
-      font-size: 1em;
-    }
-
-    .status-win {
-      color: #27ae60;
-      font-weight: bold;
-    }
-
-    .status-loss {
-      color: #e74c3c;
-      font-weight: bold;
-    }
-
-    .next {
-      color: #fff;
-      margin-top: 30px;
-      font-size: 0.95em;
-      opacity: 0.8;
-    }
-
-    input[type="text"] {
-      padding: 10px;
-      font-size: 1em;
-      border-radius: 5px;
-      border: none;
-      width: 80%;
-      max-width: 400px;
-      margin-bottom: 10px;
-      outline: none;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 1em;
-      background: #3498db;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    button:hover {
-      background: #2980b9;
-    }
-
-    html {
-      scroll-snap-type: y mandatory;
-      scroll-behavior: smooth;
-    }
+    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#fafafa; }
+    #root { padding:20px; }
+    .app-box { max-width:720px; margin:40px auto; background:#fff; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.06); padding:20px; }
+    .test-ad { width:100%; height:80px; background:#ff4444; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; border-radius:6px; }
+    .note { margin-top:12px; color:#555; font-size:14px; }
   </style>
 </head>
 <body>
+  <div id="root">
+    <div class="app-box">
+      <h2>React App (Demo)</h2>
+      <p>This demo includes the Adsterra Social Bar script tag you supplied — but this environment is offline, so the real ad won't load here.</p>
 
-  <section id="page1">
-    <h1>🔮 NOTEX Live Prediction 🔮</h1>
+      <!-- Container where the real ad script would inject the social bar -->
+      <div id="ad-container" style="margin-top:12px;"></div>
 
-    <input type="text" id="urlInput" placeholder="Enter Prediction API URL">
-    <button onclick="startFetching()">Start Prediction</button>
+      <div class="note">Below is an <strong>offline TEST AD</strong> shown so you can verify the WebView / DOM part works in this environment.</div>
+      <div style="margin-top:12px;">
+        <div class="test-ad">🔥 TEST AD BANNER (Offline Demo) 🔥</div>
+      </div>
 
-    <div class="card" id="output">Enter URL and click Start Prediction...</div>
-    <div class="next">Press ENTER to view details ↓</div>
-  </section>
+      <p class="note">To use the real ad, open this file on your local machine (or host on a webserver) with internet enabled.</p>
+    </div>
+  </div>
 
-  <section id="page2">
-    <h1>📊 Prediction Details</h1>
-    <div class="card" id="details">Loading...</div>
-    <div class="next">Press ENTER to go back ↑</div>
-  </section>
+  <!-- --- React + Babel (CDN) - left here for when you run locally --- -->
+  <!-- In this offline environment these CDN calls will fail, but the file is ready for local use. -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <script>
-    let currentPage = 1;
-    let intervalId;
-    let apiUrl = "";
+  <!-- Your Adsterra social bar script (protocol-relative). Replace or keep as-is when running locally with internet. -->
+  <!-- Provided by you: -->
+  <script type="text/javascript" src="//pl27606189.revenuecpmgate.com/90/fb/a0/90fba0e55b3e20998cfbd23fe4c71172.js"></script>
 
-    async function fetchPrediction(){
-      if (!apiUrl) return;
+  <!-- Simple React mount (JSX via Babel) -->
+  <script type="text/babel">
+    function App() {
+      React.useEffect(() => {
+        // Example: if you want to create a placeholder element where the ad script can attach
+        const container = document.getElementById('ad-container');
+        // If the external script injects into body or fixed position, it may not use this container.
+        // For the demo offline, we put a small notice
+        const p = document.createElement('div');
+        p.style.marginTop = '8px';
+        p.style.color = '#777';
+        p.textContent = 'Ad placeholder (external Adsterra script will normally inject content or floating bar).';
+        container.appendChild(p);
+      }, []);
 
-      try {
-        const res = await fetch(apiUrl);
-        const data = await res.json();
-        document.getElementById("output").innerHTML = `
-          <p><strong>Period:</strong> ${data.period}</p>
-          <p><strong>Prediction:</strong> ${data.prediction} (${data.result})</p>
-          <p><strong>Status:</strong> <span class="${data.status === 'Win' ? 'status-win' : 'status-loss'}">${data.status}</span></p>
-          <p><strong>Wins:</strong> ${data.wins} | <strong>Losses:</strong> ${data.losses}</p>
-        `;
-        document.getElementById("details").innerHTML = `
-          <p><strong>✅ Period:</strong> ${data.period}</p>
-          <p><strong>✅ Prediction:</strong> ${data.prediction} (${data.result})</p>
-          <p><strong>✅ Total Wins:</strong> ${data.wins}</p>
-          <p><strong>✅ Total Losses:</strong> ${data.losses}</p>
-        `;
-      } catch (err) {
-        console.error(err);
-        document.getElementById("output").innerHTML = "API Error or Offline.";
-        document.getElementById("details").innerHTML = "API Error or Offline.";
-      }
+      return (
+        <div>
+          <p>React is mounted. The Adsterra script tag is included below the page.</p>
+        </div>
+      );
     }
 
-    function startFetching(){
-      apiUrl = document.getElementById("urlInput").value.trim();
-      if (!apiUrl){
-        alert("Please enter a valid URL");
-        return;
-      }
-      fetchPrediction();
-      clearInterval(intervalId);
-      intervalId = setInterval(fetchPrediction, 10000);
-    }
-
-    document.addEventListener("keydown", function(event) {
-      if(event.key === "Enter") {
-        if(currentPage === 1){
-          document.getElementById("page2").scrollIntoView();
-          currentPage = 2;
-        } else {
-          document.getElementById("page1").scrollIntoView();
-          currentPage = 1;
-        }
-      }
-    });
+    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
   </script>
-
 </body>
 </html>
